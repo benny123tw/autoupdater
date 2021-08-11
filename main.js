@@ -1,6 +1,8 @@
 // Modules to control application life and create native browser window
 const {app, BrowserWindow, Tray, Menu} = require('electron');
 const { ipcMain } = require('electron/main');
+const log = require('electron-log');
+const {autoUpdater} = require("electron-updater");
 const path = require('path');
 
 // global variables
@@ -8,11 +10,11 @@ const assetsPath = app.isPackaged ? path.join(process.resourcesPath, "assets") :
 const ICON_PATH = path.join(assetsPath, '16x16.png');
 let tray = null;
 
+autoUpdater.logger = log;
+autoUpdater.logger.transports.file.level = 'info';
+log.info('App starting...');
+
 function createWindow () {
-  console.warn("create main window");
-
-
-  // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
@@ -22,13 +24,9 @@ function createWindow () {
       preload: path.join(__dirname, 'preload.js')
     },
     show: false
-  })
+  });
 
-  // and load the index.html of the app.
-  mainWindow.loadFile(path.join(__dirname, 'index.html'));
-  // mainWindow.loadURL(
-  //   'file://' + __dirname + '/index.html'
-  // );
+  mainWindow.loadURL(`file://${__dirname}/index.html#v${app.getVersion()}`);
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
@@ -42,9 +40,6 @@ function createWindow () {
   });
 }
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
 
   console.warn(`App version: ${app.getVersion()}`);
@@ -85,13 +80,15 @@ app.whenReady().then(() => {
 
   createLoadingScreen();
 
+  autoUpdater.checkForUpdatesAndNotify();
+
   // setTimeout for debuging the loading screen 
   // "ppl don't care about the logo"
   // just speed up your application 
   // no need to show too much time for your logo
-  setTimeout(() => {
-    createWindow();
-  }, 3000);
+  // setTimeout(() => {
+  //   createWindow();
+  // }, 3000);
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
@@ -105,32 +102,55 @@ app.whenReady().then(() => {
   })
 })
 
-// Quit when all windows are closed, except on macOS. There, it's common
-// for applications and their menu bar to stay active until the user quits
-// explicitly with Cmd + Q.
 app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') app.quit()
 })
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
-
-/// create a global var, wich will keep a reference to out loadingScreen window
-//  when loading screen is shown then create main window window
-//  when main screen is shown then close the loading screen
 let loadingScreen;
+
+
+function sendStatusToWindow(text) {
+  log.info(text);
+  loadingScreen.webContents.send('message', text);
+}
+
+autoUpdater.on('checking-for-update', () => {
+  sendStatusToWindow('Checking for update...');
+})
+autoUpdater.on('update-available', (info) => {
+  sendStatusToWindow('Update available.');
+})
+autoUpdater.on('update-not-available', (info) => {
+  sendStatusToWindow('Update not available.');
+})
+autoUpdater.on('error', (err) => {
+  sendStatusToWindow('Error in auto-updater. ' + err);
+})
+autoUpdater.on('download-progress', (progressObj) => {
+  let log_message = "Download speed: " + progressObj.bytesPerSecond;
+  log_message = log_message + ' - Downloaded ' + progressObj.percent + '%';
+  log_message = log_message + ' (' + progressObj.transferred + "/" + progressObj.total + ')';
+  sendStatusToWindow(log_message);
+})
+autoUpdater.on('update-downloaded', (info) => {
+  sendStatusToWindow('Update downloaded');
+});
+
 const createLoadingScreen = () => {
   /// create a browser window
   loadingScreen = new BrowserWindow(
     Object.assign({
       /// define width and height for the window
-      width: 300, // default 300
-      height: 350, // default 350
+      width: 500, // default 300
+      height: 500, // default 350
       icon: ICON_PATH,
       /// remove the window frame, so it will become a frameless window
       frame: false,
       /// and set the transparency, to remove any window background color
-      transparent: true
+      transparent: true,
+      webPreferences: {
+        preload: path.join(__dirname, 'updater.js')
+      },
     })
   );
   loadingScreen.setResizable(false);
@@ -143,9 +163,4 @@ const createLoadingScreen = () => {
     // createWindow(); 
   });
 };
-
-ipcMain.on('app-version', (event, data) => {
-  console.warn("send-version")
-  event.sender.send('app-version', app.getVersion());
-})
 

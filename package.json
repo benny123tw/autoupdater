@@ -1,13 +1,13 @@
 {
   "name": "autoupdater",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A minimal Electron application",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
     "dist": "electron-builder",
     "pack": "electron-builder --dir",
-    "publish": "electron-builder build --win -p always" 
+    "publish": "electron-builder build --win -p always"
   },
   "repository": {
     "type": "git",
@@ -37,11 +37,13 @@
     "extraResources": [
       "./assets/**"
     ],
-    "publish": [{
-      "provider": "github",
-      "owner": "benny123tw",
-      "repo": "autoupdater"
-    }],
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "benny123tw",
+        "repo": "autoupdater"
+      }
+    ],
     "win": {
       "target": "nsis",
       "icon": "assets/icon.png"
@@ -60,5 +62,9 @@
       "menuCategory": true,
       "shortcutName": "AutoUpdater"
     }
+  },
+  "dependencies": {
+    "electron-log": "^4.4.1",
+    "electron-updater": "^4.3.9"
   }
 }
