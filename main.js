@@ -1,5 +1,6 @@
 // Modules to control application life and create native browser window
-const {app, BrowserWindow, Tray, Menu} = require('electron')
+const {app, BrowserWindow, Tray, Menu} = require('electron');
+const { ipcMain } = require('electron/main');
 const path = require('path');
 
 // global variables
@@ -45,6 +46,8 @@ function createWindow () {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
+
+  console.warn(`App version: ${app.getVersion()}`);
 
   tray = new Tray(ICON_PATH);
 
@@ -140,4 +143,9 @@ const createLoadingScreen = () => {
     // createWindow(); 
   });
 };
+
+ipcMain.on('app-version', (event, data) => {
+  console.warn("send-version")
+  event.sender.send('app-version', app.getVersion());
+})
 
