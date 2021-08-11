@@ -26,6 +26,7 @@
 
       .LoaderContent {
         /* margin-top: -20px; */
+        text-align: center;
       }
 
       .LoaderContent #loading_text {
@@ -74,7 +75,7 @@
       }
 
       #innerBar p {
-        margin-left: 1rem;
+        margin-left: .5rem;
         border-radius: 15px;
       }
 
@@ -90,7 +91,7 @@
         <img src="R.gif"">
         <p id="loading_text">STARTING...</p>
 
-        <div id="messages"></div>
+        <p id="messages">Update founded</p>
         <div id="progressBar">
           <div id="innerBar" style="width: 0%">
             <p id="innerText">0%</p>
@@ -110,15 +111,15 @@
     </div>
 
     <script>
-      var innerBar = document.getElementById("innerBar");
-      var innerText = document.getElementById("innerText");
-      console.log(innerBar);
-      var timer = setInterval(() => {
-        innerBar.style.width = (parseInt(innerBar.style.width.split("%")) + 1).toString() + "%";
-        innerText.innerText = innerBar.style.width;
+      // var innerBar = document.getElementById("innerBar");
+      // var innerText = document.getElementById("innerText");
+      // console.log(innerBar);
+      // var timer = setInterval(() => {
+      //   innerBar.style.width = (parseInt(innerBar.style.width.split("%")) + 1).toString() + "%";
+      //   innerText.innerText = innerBar.style.width;
 
-        if (innerBar.style.width === "100%") clearInterval(timer);
-      }, 10)
+      //   if (innerBar.style.width === "100%") clearInterval(timer);
+      // }, 10)
     </script>
 
     <script>

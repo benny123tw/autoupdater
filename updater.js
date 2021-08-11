@@ -1,7 +1,13 @@
 const { ipcRenderer } = require("electron");
-ipcRenderer.on("message", function (event, text) {
-  var container = document.getElementById("messages");
-  var message = document.createElement("div");
-  message.innerHTML = text;
-  container.appendChild(message);
+ipcRenderer.on("message", function (event, data) {
+  var message = document.getElementById("messages");
+  if (typeof data === "string") {
+      message.innerText = data;
+  } else {
+        var progressBar = document.getElementById("innerBar");
+        var progressText = document.getElementById("innerText");
+        message = 'Download Speed:' + data.bytesPerSecond;
+        progressBar.style.width = data.percent + '%';
+        progressText = `${data.percent}% ${data.transferred} / ${data.total}`;
+  }
 });

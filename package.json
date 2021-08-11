@@ -1,6 +1,6 @@
 {
   "name": "autoupdater",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "A minimal Electron application",
   "main": "main.js",
   "scripts": {
@@ -46,7 +46,8 @@
     ],
     "win": {
       "target": "nsis",
-      "icon": "assets/icon.png"
+      "icon": "assets/icon.png",
+      "publisherName": "benny123tw"
     },
     "nsis": {
       "allowToChangeInstallationDirectory": true,
