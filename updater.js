@@ -5,9 +5,9 @@ ipcRenderer.on("message", function (event, data) {
       message.innerText = data;
   } else {
         var progressBar = document.getElementById("innerBar");
-        var progressText = document.getElementById("innerText");
-        message = 'Download Speed:' + data.bytesPerSecond;
+        var innerText = document.getElementById("innerText");
+        message.innerText = 'Download Speed:' + data.bytesPerSecond;
         progressBar.style.width = data.percent + '%';
-        progressText = `${data.percent}% ${data.transferred} / ${data.total}`;
+        innerText.innerText = `${data.percent.toFixed(1)}% ${data.transferred.toFixed(2)} / ${data.total.toFixed(2)}`; 
   }
 });
