@@ -46,8 +46,7 @@
     ],
     "win": {
       "target": "nsis",
-      "icon": "assets/icon.png",
-      "publisherName": "benny123tw"
+      "icon": "assets/icon.png"
     },
     "nsis": {
       "allowToChangeInstallationDirectory": true,
