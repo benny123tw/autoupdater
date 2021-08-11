@@ -5,10 +5,12 @@ ipcRenderer.on("message", function (event, data) {
       message.innerText = data;
   } else {
         var progressBar = document.getElementById("innerBar");
-        var innerText = document.getElementById("innerText");
+        var percentText = document.getElementById("percentText");
+        var totalText = document.getElementById("totalText");
         message.innerText = 'Download Speed:' + formatBytes(data.bytesPerSecond);
         progressBar.style.width = data.percent + '%';
-        innerText.innerText = `${data.percent.toFixed(1)}% ${formatBytes(data.transferred)} / ${formatBytes(data.total)}`; 
+        percentText.innerText = `${data.percent.toFixed(1)}%`; 
+        totalText.innerText = `${formatBytes(data.transferred)} / ${formatBytes(data.total)}`
   }
 });
 

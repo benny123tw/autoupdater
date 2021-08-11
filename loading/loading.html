@@ -29,56 +29,6 @@
         text-align: center;
       }
 
-      .LoaderContent #loading_text {
-        margin-top: 20px; 
-        text-align: center; 
-        font-style: italic; 
-        font-weight: lighter; 
-        font-size: 16px; 
-        color: rgba(255, 255, 255, 0.87);
-        font-family: sans-serif;
-      }
-
-      div#time {
-        display: flex;
-        justify-content: center;
-      }
-
-      div#time p {        
-        text-align: center; 
-        font-size: 54px; 
-        color: rgba(255, 255, 255, 0.87);
-        font-family: sans-serif;
-      }
-
-      .LoaderContent img {
-        height: 150px;
-        width: 150px; 
-      }
-
-      #progressBar {
-        height: 15px;
-        width: 100%;
-        background-color: lightgray;
-        display: flex;
-        border-radius: 15px;
-      }
-
-      #innerBar {
-        border-radius: 15px;
-        height: 15px;
-        background-color: dodgerblue;
-        color: white;
-        display: flex;
-        text-align: left;
-        align-items: center;
-      }
-
-      #innerBar p {
-        margin-left: .5rem;
-        border-radius: 15px;
-      }
-
       #messages {        
         margin-top: 20px; 
         text-align: center; 
@@ -89,6 +39,57 @@
         font-family: sans-serif;
         color: white;
       }
+
+      /* div#time {
+        display: flex;
+        justify-content: center;
+      }
+
+      div#time p {        
+        text-align: center; 
+        font-size: 54px; 
+        color: rgba(255, 255, 255, 0.87);
+        font-family: sans-serif;
+      } */
+
+      .LoaderContent img {
+        height: 150px;
+        width: 150px; 
+      }
+
+      #progressBar {
+        height: 15px;
+        width: 100%;
+        background-color: lightgray;
+        position: relative;
+        border-radius: 15px;
+        overflow: hidden;
+      }
+
+      #percentText {
+        color: white; 
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: .5rem;
+        font: bold 14px 'Quicksand', sans-serif;
+      }
+
+      #totalText {
+        color: white; 
+        font: bold 14px 'Quicksand', sans-serif;
+      }
+
+      #innerBar {
+        border-radius: 15px;
+        height: 15px;
+        background-color: dodgerblue;
+      }
+
+      /* #innerBar p {
+        margin-left: .5rem;
+        border-radius: 15px;
+      } */
     </style>
   </head>
   <body>
@@ -99,10 +100,10 @@
         
         <p id="messages">Update founded</p>
         <div id="progressBar">
-          <div id="innerBar" style="width: 0%">
-            <p id="innerText">0%</p>
-          </div>
+          <div id="innerBar" style="width: 0%"></div>
+          <span id="percentText">0%</span>
         </div>
+        <p id="totalText"></p>
 
 
         <!-- <div id="time">
