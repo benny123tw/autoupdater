@@ -121,7 +121,8 @@ autoUpdater.on('update-available', (info) => {
   sendStatusToWindow('Update available.');
 })
 autoUpdater.on('update-not-available', (info) => {
-  sendStatusToWindow('Update not available.');
+  sendStatusToWindow('STARTING...');
+  createWindow(); 
 })
 autoUpdater.on('error', (err) => {
   sendStatusToWindow('Error in auto-updater. ' + err);
@@ -161,8 +162,7 @@ const createLoadingScreen = () => {
   );
   loadingScreen.on('closed', () => (loadingScreen = null));
   loadingScreen.webContents.on('did-finish-load', () => {
-    loadingScreen.show();    
-    // createWindow(); 
+    loadingScreen.show();        
   });
 };
 
