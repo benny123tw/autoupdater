@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>FLOATING LOADING SCREEN</title>
+    <style>
+      /* Define the main wrapper style */
+      .LoaderWrapper {
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        width: 100%;
+        height: 100%;
+
+        display: flex;
+        align-content: center;
+        justify-content: center;
+        align-items: center;
+        justify-items: center;
+
+        box-sizing: border-box;
+        background-color: #282B30;
+        /* background-color: #9869FB; */
+      }
+
+      .LoaderContent {
+        /* margin-top: -20px; */
+      }
+
+      .LoaderContent #loading_text {
+        margin-top: 20px; 
+        text-align: center; 
+        font-style: italic; 
+        font-weight: lighter; 
+        font-size: 16px; 
+        color: rgba(255, 255, 255, 0.87);
+        font-family: sans-serif;
+      }
+
+      div#time {
+        display: flex;
+        justify-content: center;
+      }
+
+      div#time p {        
+        text-align: center; 
+        font-size: 54px; 
+        color: rgba(255, 255, 255, 0.87);
+        font-family: sans-serif;
+      }
+
+      .LoaderContent img {
+        height: 150px;
+        width: 150px; 
+      }
+
+      #progressBar {
+        height: 15px;
+        width: 100%;
+        background-color: lightgray;
+        display: flex;
+        border-radius: 15px;
+      }
+
+      #innerBar {
+        border-radius: 15px;
+        height: 15px;
+        background-color: dodgerblue;
+        color: white;
+        display: flex;
+        text-align: left;
+        align-items: center;
+      }
+
+      #innerBar p {
+        margin-left: 1rem;
+        border-radius: 15px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="LoaderWrapper" style="-webkit-app-region: drag">
+      <div class="LoaderContent">
+          
+        <img src="R.gif"">
+        <p id="loading_text">STARTING...</p>
+
+        <div id="progressBar">
+          <div id="innerBar" style="width: 0%">
+            <p id="innerText">0%</p>
+          </div>
+        </div>
+
+
+        <!-- <div id="time">
+          <p id="hour"></p>
+          <p name="col"></p>
+          <p id="minutes"></p>          
+          <p name="col"></p>
+          <p id="seconds"></p>
+        </div> -->
+
+      </div>
+    </div>
+
+    <script>
+      var innerBar = document.getElementById("innerBar");
+      var innerText = document.getElementById("innerText");
+      console.log(innerBar);
+      var timer = setInterval(() => {
+        innerBar.style.width = (parseInt(innerBar.style.width.split("%")) + 1).toString() + "%";
+        innerText.innerText = innerBar.style.width;
+
+        if (innerBar.style.width === "100%") clearInterval(timer);
+      }, 10)
+    </script>
+
+    <script>
+      // var text = document.getElementById("loading_text");
+      // var dot = '.';
+      // setInterval(() => {
+      //   text.innerText = text.innerText.length > 10 ? "STARTING" : text.innerText + dot;
+      // }, 500)
+
+      // var hours = document.getElementById("hour");
+      // var minutes = document.getElementById("minutes");
+      // var seconds = document.getElementById("seconds");
+      // var col = document.getElementsByName("col");
+      // hours.innerText = new Date().getHours().toString().padStart(2, '0');
+      // minutes.innerText = new Date().getMinutes().toString().padStart(2, '0');
+      // seconds.innerText = new Date().getSeconds().toString().padStart(2, '0');
+      // col.forEach(c => c.innerText = ":");
+      // setInterval(() => {
+      //   hours.innerText = new Date().getHours().toString().padStart(2, '0');
+      //   minutes.innerText = new Date().getMinutes().toString().padStart(2, '0');
+      //   seconds.innerText = new Date().getSeconds().toString().padStart(2, '0');
+      // }, 500)
+    </script>
+
+    <script>
+      // You can also require other files to run in this process
+      require('./renderer.js');
+    </script>
+  </body>
+</html>
