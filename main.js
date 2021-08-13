@@ -144,8 +144,8 @@ const createLoadingScreen = () => {
   loadingScreen = new BrowserWindow(
     Object.assign({
       /// define width and height for the window
-      width: 500, // default 300
-      height: 500, // default 350
+      width: 300, // default 300
+      height: 350, // default 350
       icon: ICON_PATH,
       /// remove the window frame, so it will become a frameless window
       frame: false,
