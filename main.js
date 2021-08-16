@@ -1,20 +1,22 @@
 // Modules to control application life and create native browser window
-const {app, BrowserWindow, Tray, Menu} = require('electron');
+const { app, BrowserWindow, Tray, Menu } = require('electron');
 const { ipcMain } = require('electron/main');
 const log = require('electron-log');
-const {autoUpdater} = require("electron-updater");
+const { autoUpdater } = require("electron-updater");
+const { dialog } = require("electron");
 const path = require('path');
+// const { checkForUpdates } = require('./checkforupdate');
 
 // global variables
 const assetsPath = app.isPackaged ? path.join(process.resourcesPath, "assets") : "assets";
 const ICON_PATH = path.join(assetsPath, '16x16.png');
 let tray = null;
 
-autoUpdater.logger = log;
-autoUpdater.logger.transports.file.level = 'info';
 log.info('App starting...');
 
-function createWindow () {
+console.log(`Platform: ${process.platform}`);
+
+function createWindow() {
   const mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
@@ -51,7 +53,7 @@ app.whenReady().then(() => {
       label: 'Hello World APP',
       icon: ICON_PATH,
       enabled: false
-    }, 
+    },
     { type: 'separator' },
     {
       label: 'Check for updates',
@@ -70,17 +72,15 @@ app.whenReady().then(() => {
       label: 'Quit Hello App',
       click: () => {
         app.quit();
-      } 
+      }
     }
   ]
-    
+
   const contextMenu = Menu.buildFromTemplate(template);
   tray.setToolTip('This is my application.');
   tray.setContextMenu(contextMenu);
 
   createLoadingScreen();
-  
-  autoUpdater.checkForUpdatesAndNotify();
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
@@ -89,7 +89,7 @@ app.whenReady().then(() => {
       createLoadingScreen();
       setTimeout(() => {
         createWindow();
-      }, 2000);
+      }, 5000);
     }
   })
 })
@@ -98,8 +98,10 @@ app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') app.quit()
 })
 
-let loadingScreen;
+autoUpdater.logger = require("electron-log")
+autoUpdater.logger.transports.file.level = "info"
 
+let loadingScreen;
 
 function sendStatusToWindow(text) {
   log.info(text);
@@ -114,10 +116,10 @@ autoUpdater.on('update-available', (info) => {
 })
 autoUpdater.on('update-not-available', (info) => {
   sendStatusToWindow('STARTING...');
-  createWindow(); 
+  createWindow();
 })
-autoUpdater.on('error', (err) => {
-  sendStatusToWindow('Error in auto-updater. ' + err);
+autoUpdater.on('error', (error) => {
+  dialog.showErrorBox('Error: ', error == null ? "unknown" : (error.stack || error).toString())
 })
 autoUpdater.on('download-progress', (progressObj) => {
   // progressObj.bytesPerSecond
@@ -128,7 +130,7 @@ autoUpdater.on('download-progress', (progressObj) => {
 })
 autoUpdater.on('update-downloaded', (info) => {
   sendStatusToWindow('Update downloaded');
-  autoUpdater.quitAndInstall();  
+  autoUpdater.quitAndInstall();
 });
 
 const createLoadingScreen = () => {
@@ -154,11 +156,9 @@ const createLoadingScreen = () => {
   );
   loadingScreen.on('closed', () => (loadingScreen = null));
   loadingScreen.webContents.on('did-finish-load', () => {
-    loadingScreen.show();   
-    
-    // Dev mode only
-    if (!app.isPackaged)
-      createWindow();
+    loadingScreen.show();
+    // checkForUpdates();
+    autoUpdater.checkForUpdates();
   });
 };
 
