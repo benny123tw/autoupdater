@@ -1,13 +1,13 @@
 {
   "name": "autoupdater",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "A minimal Electron application",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
     "dist": "electron-builder",
     "pack": "electron-builder --dir",
-    "publish": "electron-builder build --win -p always"
+    "publish": "electron-builder build --win --mac -p always"
   },
   "repository": {
     "type": "git",

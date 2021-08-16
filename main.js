@@ -79,16 +79,8 @@ app.whenReady().then(() => {
   tray.setContextMenu(contextMenu);
 
   createLoadingScreen();
-
+  
   autoUpdater.checkForUpdatesAndNotify();
-
-  // setTimeout for debuging the loading screen 
-  // "ppl don't care about the logo"
-  // just speed up your application 
-  // no need to show too much time for your logo
-  // setTimeout(() => {
-  //   createWindow();
-  // }, 3000);
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
@@ -162,7 +154,11 @@ const createLoadingScreen = () => {
   );
   loadingScreen.on('closed', () => (loadingScreen = null));
   loadingScreen.webContents.on('did-finish-load', () => {
-    loadingScreen.show();        
+    loadingScreen.show();   
+    
+    // Dev mode only
+    if (!app.isPackaged)
+      createWindow();
   });
 };
 
