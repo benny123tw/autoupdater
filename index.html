@@ -1,52 +1,25 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8">
-    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <title>Hello World!</title>
-    <style>
-      .container {
-        -webkit-app-region: drag;
-        position: absolute;
-        top: 0;
-        left: 0;
-
-        width: 100%;
-        height: 100%;
-
-        display: flex;
-        align-content: center;
-        justify-content: center;
-        align-items: center;
-        justify-items: center;
-
-        box-sizing: border-box;
-        background-color: #282B30;
-        /* background-color: #9869FB; */
-      }
-
-      .container img {
-        width: 300px;
-        height: 300px;
-      }
-      .container h1 {
-        color: white;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      }
-
-      .innerContainer {
-        text-align: center;
-      }
-    </style>
+    <meta charset="UTF-8" />
+    <title>Simple Screen Recorder</title>
+    <link rel="stylesheet" href="style.css" />
+    <script defer src="render.js"></script>
   </head>
-  <body>
+  <body class="content">
     <div class="container">
-      <div class="innerContainer">
-        <h1 id="package-version"></h1>
-        <img src="./loading/gura.gif" alt="">
-      </div>
+      <h1>⚡ Electron Screen Recorder <span id="package-version"></span></h1>
+
+      <video></video>
+  
+      <button id="startBtn" class="button is-primary">Start</button>
+      <button id="stopBtn" class="button is-warning">Stop</button>
+  
+      <hr />
+  
+      <button id="videoSelectBtn" class="button is-text">
+        Choose a Video Source
+      </button>
     </div>
-    <!-- You can also require other files to run in this process -->
-    <script src="./renderer.js"></script>
   </body>
 </html>

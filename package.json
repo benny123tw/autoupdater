@@ -1,7 +1,7 @@
 {
   "name": "autoupdater",
-  "version": "1.0.9",
-  "description": "A minimal Electron application",
+  "version": "1.1.0",
+  "description": "my Electron playground app",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
@@ -65,7 +65,10 @@
     }
   },
   "dependencies": {
+    "bulma": "^0.9.3",
+    "chalk": "^4.1.2",
     "electron-log": "^4.4.1",
-    "electron-updater": "^4.3.9"
+    "electron-updater": "^4.3.9",
+    "fs": "*"
   }
 }
